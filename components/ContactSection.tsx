@@ -18,7 +18,7 @@ const ContactSection: React.FC = () => {
               <p className="text-white font-medium text-2xl md:text-3xl mb-4">당신 안의 탁월함을 깨우십시오.</p>
               <p>개인의 성공을 넘어,</p>
               <p>그 성과가 조직의 문화가 되고 사회의 가치로 확장되도록</p>
-              <p>인피니티 코칭은 지속 가능한 리더십의 미래를 디자인합니다.</p>
+              <p>인피니티 코칭은 지속 가능한 리더십의 미래를 함께 디자인합니다.</p>
             </div>
           </div>
         </ScrollReveal>
