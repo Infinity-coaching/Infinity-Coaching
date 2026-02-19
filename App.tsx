@@ -108,6 +108,7 @@ const MainApp: React.FC = () => {
                 <img
                   src={profileImage}
                   alt={t.about.name}
+                  loading="lazy"
                   className="w-full h-auto object-cover hover:scale-105 transition-transform duration-[3s] ease-out filter brightness-[1.03] contrast-[1.02]"
                   onError={(e) => { (e.target as HTMLImageElement).src = "https://i.ifh.cc/takm31.jpg"; }}
                 />
@@ -163,7 +164,7 @@ const MainApp: React.FC = () => {
             </ScrollReveal>
             <ScrollReveal delay={200} className="w-full">
               <div className="relative aspect-[21/7] md:aspect-[21/6] overflow-hidden grayscale hover:grayscale-0 transition-all duration-1000 shadow-2xl rounded-sm">
-                <img src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=1200" alt="Leadership" className="w-full h-full object-cover" />
+                <img src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=1200" alt="Leadership" loading="lazy" className="w-full h-full object-cover" />
               </div>
             </ScrollReveal>
           </div>
@@ -182,7 +183,7 @@ const MainApp: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-16 items-center">
             <ScrollReveal delay={100} className="order-2 md:order-1">
               <div className="relative aspect-square overflow-hidden shadow-2xl rounded-sm">
-                <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?q=80&w=1200" alt="Leader" className="w-full h-full object-cover" />
+                <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?q=80&w=1200" alt="Leader" loading="lazy" className="w-full h-full object-cover" />
               </div>
             </ScrollReveal>
             <ScrollReveal delay={300} className="order-1 md:order-2 space-y-8">

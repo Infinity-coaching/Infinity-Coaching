@@ -21,6 +21,18 @@ export default defineConfig(({ mode }) => {
         alias: {
           '@': path.resolve(__dirname, '.'),
         }
+      },
+      build: {
+        rollupOptions: {
+          output: {
+            manualChunks: {
+              'react-vendor': ['react', 'react-dom'],
+              'supabase': ['@supabase/supabase-js'],
+              'emailjs': ['@emailjs/browser'],
+              'genai': ['@google/genai'],
+            }
+          }
+        }
       }
     };
 });
