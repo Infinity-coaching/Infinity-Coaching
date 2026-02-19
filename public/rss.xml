@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+  xmlns:atom="http://www.w3.org/2005/Atom"
+  xmlns:dc="http://purl.org/dc/elements/1.1/"
+  xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>INFINITY COACHING | 탁월함을 일깨우다</title>
+    <link>https://infinitycoaching.kr</link>
+    <atom:link href="https://infinitycoaching.kr/rss.xml" rel="self" type="application/rss+xml" />
+    <description>인피니티코칭 김명희 대표코치. 신경과학·조직심리학 기반 이그제큐티브 코칭 인사이트.</description>
+    <language>ko-KR</language>
+    <copyright>© 2026 INFINITY COACHING</copyright>
+    <managingEditor>befreeandbold@gmail.com (김명희)</managingEditor>
+    <webMaster>befreeandbold@gmail.com (김명희)</webMaster>
+    <lastBuildDate>Wed, 19 Feb 2026 00:00:00 +0900</lastBuildDate>
+    <category>Executive Coaching</category>
+    <category>리더십 코칭</category>
+    <category>임원코칭</category>
+    <image>
+      <url>https://infinitycoaching.kr/og-image.jpg</url>
+      <title>INFINITY COACHING</title>
+      <link>https://infinitycoaching.kr</link>
+    </image>
+
+    <item>
+      <title>리얼타임 리더십 코칭 — 가장 중요한 순간에, 가장 현명한 선택을</title>
+      <link>https://infinitycoaching.kr/#programs</link>
+      <guid isPermaLink="false">infinitycoaching-program-executive-coaching</guid>
+      <pubDate>Wed, 19 Feb 2026 00:00:00 +0900</pubDate>
+      <dc:creator>김명희</dc:creator>
+      <description>
+        CEO, C-suite 임원, 사업부 대표를 위한 1:1 이그제큐티브 코칭. MOVE 모델 + Five C's + 3차원 리더십 프레임워크.
+        변화의 속도가 급속도로 빨라진 시대에 의사결정의 임팩트와 무게는 과거에 비해 비교할 수 없을 만큼 커졌습니다.
+      </description>
+    </item>
+
+    <item>
+      <title>리더십 프레즌스 — GRAVITAS MASTERY PROGRAM</title>
+      <link>https://infinitycoaching.kr/#programs</link>
+      <guid isPermaLink="false">infinitycoaching-program-gravitas</guid>
+      <pubDate>Wed, 19 Feb 2026 00:00:00 +0900</pubDate>
+      <dc:creator>김명희</dc:creator>
+      <description>
+        말하기 전에 이미 신뢰가 느껴지는 리더. 신임 임원, C-Level, CEO를 위한 3개월 집중 프로그램.
+        Composure, Confidence, 2초의 침묵이 만드는 관점의 무게.
+      </description>
+    </item>
+
+    <item>
+      <title>홀 브레인 갈등관리 — Conflict Intelligence</title>
+      <link>https://infinitycoaching.kr/#programs</link>
+      <guid isPermaLink="false">infinitycoaching-program-conflict-intelligence</guid>
+      <pubDate>Wed, 19 Feb 2026 00:00:00 +0900</pubDate>
+      <dc:creator>김명희</dc:creator>
+      <description>
+        갈등을 회피하는 리더에서 갈등에 적응적으로 대응하며 혁신과 성장을 이끌어내는 리더로.
+        C-suite 팀, 사업부 대표단을 위한 8시간 집중 워크샵.
+      </description>
+    </item>
+
+    <item>
+      <title>신임임원 온보딩 — Executive Onboarding</title>
+      <link>https://infinitycoaching.kr/#programs</link>
+      <guid isPermaLink="false">infinitycoaching-program-onboarding</guid>
+      <pubDate>Wed, 19 Feb 2026 00:00:00 +0900</pubDate>
+      <dc:creator>김명희</dc:creator>
+      <description>
+        새로운 리더십으로 넘어가기 위한 being과 doing을 설계합니다.
+        신임 임원을 위한 6개월 프로그램. 원데이 집중 워크샵 + 1:1 코칭 6회기.
+      </description>
+    </item>
+
+  </channel>
+</rss>
