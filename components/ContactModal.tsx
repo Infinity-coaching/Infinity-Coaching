@@ -140,12 +140,30 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, lang }) =>
   };
 
   const submitNewsletter = async () => {
-    // Supabase에 임시 저장 (추후 뉴스레터 서비스 결정 후 연동 예정)
-    const { error: dbError } = await supabase
-      .from('newsletter_subscribers')
-      .upsert({ email: newsletterEmail }, { onConflict: 'email', ignoreDuplicates: true });
+    const brevoApiKey = import.meta.env.VITE_BREVO_API_KEY;
+    const brevoListId = Number(import.meta.env.VITE_BREVO_LIST_ID);
 
-    if (dbError) throw dbError;
+    // 1. 연락처 추가
+    const contactRes = await fetch('https://api.brevo.com/v3/contacts', {
+      method: 'POST',
+      headers: { 'api-key': brevoApiKey, 'content-type': 'application/json' },
+      body: JSON.stringify({ email: newsletterEmail, listIds: [brevoListId], updateEnabled: true }),
+    });
+
+    if (!contactRes.ok && contactRes.status !== 204) {
+      const err = await contactRes.json();
+      if (err.code !== 'duplicate_parameter') throw new Error(err.message);
+    }
+
+    // 2. 웰컴 메일 발송
+    await fetch('https://api.brevo.com/v3/smtp/email', {
+      method: 'POST',
+      headers: { 'api-key': brevoApiKey, 'content-type': 'application/json' },
+      body: JSON.stringify({
+        to: [{ email: newsletterEmail }],
+        templateId: 1,
+      }),
+    });
   };
 
   const handleClose = () => {
