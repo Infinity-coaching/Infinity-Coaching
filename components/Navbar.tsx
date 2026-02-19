@@ -1,7 +1,12 @@
 
 import React, { useState, useEffect } from 'react';
 
-const Navbar: React.FC = () => {
+interface NavbarProps {
+  lang: 'ko' | 'en';
+  setLang: (l: 'ko' | 'en') => void;
+}
+
+const Navbar: React.FC<NavbarProps> = ({ lang, setLang }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -20,15 +25,14 @@ const Navbar: React.FC = () => {
   }, []);
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
-    if (id === 'BLOG') return; // Let standard anchor handle the link
+    if (itemToId(id) === 'blog') return;
 
     e.preventDefault();
-    // Convert 'AI Coach' to 'ai-coach' for the ID
-    const targetId = id.toLowerCase().replace(/\s+/g, '-');
+    const targetId = itemToId(id);
     const element = document.getElementById(targetId);
     
     if (element) {
-      const offset = 80; // Sticky navbar height offset
+      const offset = 80;
       const bodyRect = document.body.getBoundingClientRect().top;
       const elementRect = element.getBoundingClientRect().top;
       const elementPosition = elementRect - bodyRect;
@@ -42,6 +46,8 @@ const Navbar: React.FC = () => {
     setIsMobileMenuOpen(false);
   };
 
+  const itemToId = (item: string) => item.toLowerCase().replace(/\s+/g, '-');
+
   return (
     <nav className={`fixed top-0 w-full z-50 px-6 md:px-12 transition-all duration-500 ease-in-out ${
       isScrolled ? 'py-4 bg-[#03090F]/90 backdrop-blur-md text-[#F7F5F0]' : 'py-8 mix-blend-difference text-[#F7F5F0]'
@@ -54,14 +60,13 @@ const Navbar: React.FC = () => {
           INFINITY COACHING
         </div>
         
-        {/* Desktop Menu */}
         <div className="hidden lg:flex gap-8 items-center">
           {menuItems.map((item) => {
             const isBlog = item === 'BLOG';
             return (
               <a 
                 key={item}
-                href={isBlog ? blogUrl : `#${item.toLowerCase().replace(/\s+/g, '-')}`}
+                href={isBlog ? blogUrl : `#${itemToId(item)}`}
                 target={isBlog ? "_blank" : undefined}
                 rel={isBlog ? "noopener noreferrer" : undefined}
                 onClick={(e) => handleNavClick(e, item)}
@@ -76,9 +81,15 @@ const Navbar: React.FC = () => {
               </a>
             );
           })}
+          
+          <button 
+            onClick={() => setLang(lang === 'ko' ? 'en' : 'ko')}
+            className="ml-4 border border-white/20 px-3 py-1 rounded-full text-[10px] uppercase tracking-widest hover:border-[#4FD1C5] hover:text-[#4FD1C5] transition-all"
+          >
+            {lang === 'ko' ? 'English' : '한국어'}
+          </button>
         </div>
 
-        {/* Mobile Toggle */}
         <button 
           className="lg:hidden text-[#F7F5F0] focus:outline-none"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -89,7 +100,6 @@ const Navbar: React.FC = () => {
         </button>
       </div>
 
-      {/* Mobile Menu Overlay */}
       <div className={`lg:hidden fixed inset-0 bg-[#03090F] z-40 flex flex-col items-center justify-center gap-8 transition-all duration-500 ${
         isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'
       }`}>
@@ -98,7 +108,7 @@ const Navbar: React.FC = () => {
           return (
             <a 
               key={item}
-              href={isBlog ? blogUrl : `#${item.toLowerCase().replace(/\s+/g, '-')}`}
+              href={isBlog ? blogUrl : `#${itemToId(item)}`}
               target={isBlog ? "_blank" : undefined}
               rel={isBlog ? "noopener noreferrer" : undefined}
               onClick={(e) => handleNavClick(e, item)}
@@ -110,6 +120,12 @@ const Navbar: React.FC = () => {
             </a>
           );
         })}
+        <button 
+          onClick={() => { setLang(lang === 'ko' ? 'en' : 'ko'); setIsMobileMenuOpen(false); }}
+          className="mt-4 border border-[#4FD1C5]/30 px-6 py-2 rounded-full text-[12px] uppercase tracking-widest text-[#4FD1C5]"
+        >
+          {lang === 'ko' ? 'Switch to English' : '한국어로 변경'}
+        </button>
       </div>
     </nav>
   );

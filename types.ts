@@ -7,17 +7,18 @@ export enum RitualCategory {
 }
 
 export enum InquiryType {
-  ONE_ON_ONE = '일대일 코칭',
-  DIAGNOSIS = '진단',
-  CORPORATE = '기업교육',
+  ONE_ON_ONE = '1:1 코칭',
+  GROUP = '그룹 코칭',
+  CORPORATE = '기업 교육',
   WORKSHOP = '워크숍',
   OTHERS = '기타'
 }
 
 export interface ContactFormData {
   name: string;
+  affiliation: string;
   email: string;
-  phone?: string;
+  phone: string;
   type: InquiryType;
   message: string;
 }
