@@ -1,12 +1,19 @@
 
 import React, { useState } from 'react';
+import emailjs from '@emailjs/browser';
 import { InquiryType, ContactFormData } from '../types';
+import { supabase } from '../services/supabaseClient';
 
 interface ContactModalProps {
   isOpen: boolean;
   onClose: () => void;
   lang: 'ko' | 'en';
 }
+
+const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY as string;
+const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID as string;
+const EMAILJS_INQUIRY_TEMPLATE = import.meta.env.VITE_EMAILJS_INQUIRY_TEMPLATE_ID as string;
+const ADMIN_EMAIL = 'befreeandbold@gmail.com';
 
 const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, lang }) => {
   const [activeTab, setActiveTab] = useState<'inquiry' | 'newsletter'>('inquiry');
@@ -21,6 +28,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, lang }) =>
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
 
   const t = {
     ko: {
@@ -44,7 +52,8 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, lang }) =>
         newsletterSubmitting: '신청 중...',
         newsletterSuccess: '구독 신청 완료',
         newsletterSuccessMsg: '뉴스레터 구독 신청이 완료되었습니다. 인피니티의 새로운 소식을 전해드리겠습니다.',
-        newsletterFooter: '* 언제든 구독을 해지하실 수 있습니다.'
+        newsletterFooter: '* 언제든 구독을 해지하실 수 있습니다.',
+        errorMsg: '제출 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.'
       }
     },
     en: {
@@ -68,7 +77,8 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, lang }) =>
         newsletterSubmitting: 'Subscribing...',
         newsletterSuccess: 'Subscription Confirmed',
         newsletterSuccessMsg: 'Your subscription has been confirmed. Stay tuned for Infinity updates.',
-        newsletterFooter: '* You can unsubscribe at any time.'
+        newsletterFooter: '* You can unsubscribe at any time.',
+        errorMsg: 'An error occurred. Please try again later.'
       }
     }
   }[lang];
@@ -78,15 +88,69 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, lang }) =>
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    // In a real app, this would send data to a backend or email service
-    console.log(`Sending ${activeTab} data:`, activeTab === 'inquiry' ? formData : newsletterEmail);
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    setIsSubmitting(false);
-    setIsSuccess(true);
+    setErrorMsg('');
+
+    try {
+      if (activeTab === 'inquiry') {
+        await submitInquiry();
+      } else {
+        await submitNewsletter();
+      }
+      setIsSuccess(true);
+    } catch (err) {
+      console.error('Submit error:', err);
+      setErrorMsg(t.labels.errorMsg);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const submitInquiry = async () => {
+    // 1. Supabase에 저장
+    const { error: dbError } = await supabase
+      .from('contacts')
+      .insert({
+        name: formData.name,
+        affiliation: formData.affiliation,
+        email: formData.email,
+        phone: formData.phone,
+        type: formData.type,
+        message: formData.message,
+      });
+
+    if (dbError) throw dbError;
+
+    // 2. 관리자 이메일 알림 (EmailJS)
+    if (EMAILJS_SERVICE_ID && EMAILJS_INQUIRY_TEMPLATE && EMAILJS_PUBLIC_KEY) {
+      await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_INQUIRY_TEMPLATE,
+        {
+          to_email: ADMIN_EMAIL,
+          from_name: formData.name,
+          from_email: formData.email,
+          from_phone: formData.phone,
+          affiliation: formData.affiliation,
+          inquiry_type: formData.type,
+          message: formData.message,
+        },
+        EMAILJS_PUBLIC_KEY
+      );
+    }
+  };
+
+  const submitNewsletter = async () => {
+    // Supabase에 임시 저장 (추후 뉴스레터 서비스 결정 후 연동 예정)
+    const { error: dbError } = await supabase
+      .from('newsletter_subscribers')
+      .upsert({ email: newsletterEmail }, { onConflict: 'email', ignoreDuplicates: true });
+
+    if (dbError) throw dbError;
   };
 
   const handleClose = () => {
     setIsSuccess(false);
+    setErrorMsg('');
     setActiveTab('inquiry');
     setFormData({
       name: '',
@@ -103,11 +167,11 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, lang }) =>
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-6">
       {/* Backdrop */}
-      <div 
+      <div
         className="absolute inset-0 bg-[#03090F]/90 backdrop-blur-lg transition-opacity duration-500"
         onClick={handleClose}
       />
-      
+
       {/* Modal Content */}
       <div className="relative w-full max-w-2xl bg-[#0B151F] border border-[#2A3C4F] shadow-2xl overflow-hidden transition-all duration-500 animate-fadeIn flex flex-col max-h-[90vh]">
         <div className="absolute top-0 right-0 p-4 z-50">
@@ -129,7 +193,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, lang }) =>
               <p className="text-[#8FA3B5] font-light leading-relaxed mb-8 break-keep">
                 {activeTab === 'inquiry' ? t.labels.successMsg : t.labels.newsletterSuccessMsg}
               </p>
-              <button 
+              <button
                 onClick={handleClose}
                 className="px-12 py-3 bg-[#4FD1C5] text-[#03090F] text-[10px] uppercase tracking-[0.3em] font-bold hover:bg-[#F7F5F0] transition-colors"
               >
@@ -140,14 +204,14 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, lang }) =>
             <>
               {/* Tabs */}
               <div className="flex gap-8 mb-10 border-b border-[#2A3C4F]">
-                <button 
+                <button
                   onClick={() => setActiveTab('inquiry')}
                   className={`pb-4 text-[10px] uppercase tracking-[0.25em] font-bold transition-all relative ${activeTab === 'inquiry' ? 'text-[#F7F5F0]' : 'text-[#8FA3B5] opacity-50'}`}
                 >
                   {t.tabs.inquiry}
                   {activeTab === 'inquiry' && <div className="absolute bottom-0 left-0 w-full h-px bg-[#4FD1C5]" />}
                 </button>
-                <button 
+                <button
                   onClick={() => setActiveTab('newsletter')}
                   className={`pb-4 text-[10px] uppercase tracking-[0.25em] font-bold transition-all relative ${activeTab === 'newsletter' ? 'text-[#F7F5F0]' : 'text-[#8FA3B5] opacity-50'}`}
                 >
@@ -156,13 +220,19 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, lang }) =>
                 </button>
               </div>
 
+              {errorMsg && (
+                <div className="mb-6 p-3 bg-red-900/20 border border-red-500/30 text-red-400 text-xs rounded">
+                  {errorMsg}
+                </div>
+              )}
+
               {activeTab === 'inquiry' ? (
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-1">
                       <label className="text-[9px] uppercase tracking-widest text-[#4FD1C5] font-bold">{t.labels.name}</label>
-                      <input 
-                        type="text" 
+                      <input
+                        type="text"
                         required
                         value={formData.name}
                         onChange={e => setFormData({...formData, name: e.target.value})}
@@ -171,8 +241,8 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, lang }) =>
                     </div>
                     <div className="space-y-1">
                       <label className="text-[9px] uppercase tracking-widest text-[#4FD1C5] font-bold">{t.labels.affiliation}</label>
-                      <input 
-                        type="text" 
+                      <input
+                        type="text"
                         required
                         value={formData.affiliation}
                         onChange={e => setFormData({...formData, affiliation: e.target.value})}
@@ -184,8 +254,8 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, lang }) =>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-1">
                       <label className="text-[9px] uppercase tracking-widest text-[#4FD1C5] font-bold">{t.labels.email}</label>
-                      <input 
-                        type="email" 
+                      <input
+                        type="email"
                         required
                         value={formData.email}
                         onChange={e => setFormData({...formData, email: e.target.value})}
@@ -194,8 +264,8 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, lang }) =>
                     </div>
                     <div className="space-y-1">
                       <label className="text-[9px] uppercase tracking-widest text-[#4FD1C5] font-bold">{t.labels.phone}</label>
-                      <input 
-                        type="tel" 
+                      <input
+                        type="tel"
                         required
                         value={formData.phone}
                         onChange={e => setFormData({...formData, phone: e.target.value})}
@@ -206,7 +276,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, lang }) =>
 
                   <div className="space-y-1">
                     <label className="text-[9px] uppercase tracking-widest text-[#4FD1C5] font-bold">{t.labels.type}</label>
-                    <select 
+                    <select
                       value={formData.type}
                       onChange={e => setFormData({...formData, type: e.target.value as InquiryType})}
                       className="w-full bg-[#03090F] border border-[#2A3C4F] text-[#F7F5F0] p-2 text-sm focus:outline-none focus:border-[#4FD1C5] appearance-none cursor-pointer"
@@ -219,7 +289,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, lang }) =>
 
                   <div className="space-y-1">
                     <label className="text-[9px] uppercase tracking-widest text-[#4FD1C5] font-bold">{t.labels.message}</label>
-                    <textarea 
+                    <textarea
                       required
                       rows={3}
                       value={formData.message}
@@ -228,8 +298,8 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, lang }) =>
                     />
                   </div>
 
-                  <button 
-                    type="submit" 
+                  <button
+                    type="submit"
                     disabled={isSubmitting}
                     className="w-full group relative flex items-center justify-center gap-3 bg-[#EAE7DF] text-[#03090F] px-6 py-4 text-[10px] uppercase tracking-[0.3em] font-bold overflow-hidden transition-all duration-500 disabled:opacity-50"
                   >
@@ -245,11 +315,11 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, lang }) =>
                       {t.labels.newsletterDesc}
                     </p>
                   </div>
-                  
+
                   <div className="space-y-2">
                     <label className="text-[9px] uppercase tracking-widest text-[#4FD1C5] font-bold">{t.labels.email}</label>
-                    <input 
-                      type="email" 
+                    <input
+                      type="email"
                       required
                       placeholder={t.labels.newsletterPlaceholder}
                       value={newsletterEmail}
@@ -258,15 +328,15 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, lang }) =>
                     />
                   </div>
 
-                  <button 
-                    type="submit" 
+                  <button
+                    type="submit"
                     disabled={isSubmitting}
                     className="w-full group relative flex items-center justify-center gap-3 bg-[#EAE7DF] text-[#03090F] px-6 py-4 text-[10px] uppercase tracking-[0.3em] font-bold overflow-hidden transition-all duration-500 disabled:opacity-50"
                   >
                     <div className="absolute inset-0 bg-[#4FD1C5] transform scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-500 ease-out z-0"></div>
                     <span className="relative z-10">{isSubmitting ? t.labels.newsletterSubmitting : t.labels.newsletterBtn}</span>
                   </button>
-                  
+
                   <p className="text-[10px] text-[#55697d] text-center italic">
                     {t.labels.newsletterFooter}
                   </p>

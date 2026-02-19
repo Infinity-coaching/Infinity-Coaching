@@ -12,7 +12,10 @@ export default defineConfig(({ mode }) => {
       plugins: [react()],
       define: {
         'process.env.API_KEY': JSON.stringify(env.GEMINI_API_KEY),
-        'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY)
+        'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY),
+        'import.meta.env.VITE_EMAILJS_PUBLIC_KEY': JSON.stringify(env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY),
+        'import.meta.env.VITE_EMAILJS_SERVICE_ID': JSON.stringify(env.NEXT_PUBLIC_EMAILJS_SERVICE_ID),
+        'import.meta.env.VITE_EMAILJS_INQUIRY_TEMPLATE_ID': JSON.stringify(env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID),
       },
       resolve: {
         alias: {

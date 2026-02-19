@@ -9,8 +9,9 @@ import ProgramsSection from './components/ProgramsSection';
 import AssessmentsSection from './components/AssessmentsSection';
 import InsightsSection from './components/InsightsSection';
 import ContactModal from './components/ContactModal';
+import UnsubscribePage from './components/UnsubscribePage';
 
-const App: React.FC = () => {
+const MainApp: React.FC = () => {
   const [lang, setLang] = useState<'ko' | 'en'>('ko');
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
 
@@ -81,7 +82,7 @@ const App: React.FC = () => {
   return (
     <div className="min-h-screen selection:bg-[#4FD1C5] selection:text-white font-sans">
       <Navbar lang={lang} setLang={setLang} />
-      
+
       <Hero lang={lang} onOpenContact={openContactModal} />
 
       <section id="philosophy">
@@ -104,9 +105,9 @@ const App: React.FC = () => {
             <div className="relative group mx-auto">
               <div className="absolute -inset-16 bg-[#4FD1C5]/10 rounded-full blur-[100px] opacity-40 pointer-events-none animate-pulse"></div>
               <div className="relative overflow-hidden shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)] border border-white/80 rounded-sm">
-                <img 
-                  src={profileImage} 
-                  alt={t.about.name} 
+                <img
+                  src={profileImage}
+                  alt={t.about.name}
                   className="w-full h-auto object-cover hover:scale-105 transition-transform duration-[3s] ease-out filter brightness-[1.03] contrast-[1.02]"
                   onError={(e) => { (e.target as HTMLImageElement).src = "https://i.ifh.cc/takm31.jpg"; }}
                 />
@@ -210,6 +211,13 @@ const App: React.FC = () => {
       </footer>
     </div>
   );
+};
+
+const App: React.FC = () => {
+  if (window.location.pathname === '/unsubscribe') {
+    return <UnsubscribePage />;
+  }
+  return <MainApp />;
 };
 
 export default App;

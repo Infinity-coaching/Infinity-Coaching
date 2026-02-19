@@ -4,49 +4,129 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>INFINITY COACHING | Premium Ocean Ritual</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Primary SEO -->
+    <title>INFINITY COACHING | 김명희 이그제큐티브 코치 · 임원코칭 · 리더십코칭</title>
+    <meta name="description" content="인피니티코칭 김명희 대표코치(PhD). 신경과학·조직심리학 기반 이그제큐티브 코칭 전문가. ICF PCC 국제인증. 임원코칭, 최고경영자코칭, 리더십 코칭, 갈등지능, 그라비타스(Gravitas), 리더십 프레즌스(Presence) 전문." />
+    <meta name="keywords" content="인피니티코칭, 인피니티 코칭, 김명희 코치, 김명희 코치, infinity coaching, infinitycoaching, 이그제큐티브 코칭, 임원코칭, 최고경영자코칭, 신임임원 온보딩, 리얼타임 리더십코칭, 리더십 코칭, 갈등지능, 갈등관리, 리더십 프레즌스, 그라비타스, gravitas, presence, leadership coaching, executive coaching, ICF PCC, 조직심리학" />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="김명희 (Myunghee Kim)" />
+    <link rel="canonical" href="https://infinitycoaching.kr" />
+
+    <!-- Google Search Console 소유권 인증 (발급 후 content 값 교체) -->
+    <!-- <meta name="google-site-verification" content="GOOGLE_VERIFICATION_CODE" /> -->
+
+    <!-- Naver Search Advisor 인증 (발급 후 content 값 교체) -->
+    <!-- <meta name="naver-site-verification" content="NAVER_VERIFICATION_CODE" /> -->
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://infinitycoaching.kr" />
+    <meta property="og:title" content="INFINITY COACHING | 김명희 이그제큐티브 코치" />
+    <meta property="og:description" content="신경과학·조직심리학 기반 이그제큐티브 코칭. 임원코칭, 최고경영자코칭, 리더십 프레즌스, 갈등지능 전문. ICF PCC 국제인증 김명희 코치." />
+    <meta property="og:image" content="https://infinitycoaching.kr/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="ko_KR" />
+    <meta property="og:site_name" content="INFINITY COACHING" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="INFINITY COACHING | 김명희 이그제큐티브 코치" />
+    <meta name="twitter:description" content="신경과학·조직심리학 기반 이그제큐티브 코칭. ICF PCC 국제인증 김명희 코치." />
+    <meta name="twitter:image" content="https://infinitycoaching.kr/og-image.jpg" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@200;300;400;500&display=swap" rel="stylesheet">
-    <style>
-      body {
-        font-family: 'Inter', sans-serif;
-        background-color: #F7F5F0;
-      }
-      h1, h2, h3, h4, .serif {
-        font-family: 'Cormorant Garamond', serif;
-      }
-      .noise-overlay {
-        position: fixed;
-        top: 0; left: 0; width: 100%; height: 100%;
-        pointer-events: none;
-        z-index: 9999;
-        opacity: 0.04;
-        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-      }
-      @keyframes slowZoom {
-        0% { transform: scale(1); }
-        100% { transform: scale(1.15); }
-      }
-      .animate-slow-zoom {
-        animation: slowZoom 20s ease-out infinite alternate;
-      }
-    </style>
-  <script type="importmap">
-{
-  "imports": {
-    "react/": "https://esm.sh/react@^19.2.4/",
-    "react": "https://esm.sh/react@^19.2.4",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
-    "@google/genai": "https://esm.sh/@google/genai@^1.41.0"
-  }
-}
-</script>
-</head>
+
+    <!-- JSON-LD 구조화 데이터 (Google 인물 검색 최적화) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://infinitycoaching.kr/#organization",
+          "name": "INFINITY COACHING",
+          "alternateName": ["인피니티코칭", "인피니티 코칭"],
+          "url": "https://infinitycoaching.kr",
+          "logo": "https://infinitycoaching.kr/og-image.jpg",
+          "description": "신경과학과 조직심리학 기반의 이그제큐티브 코칭 전문 기업. 임원코칭, 최고경영자코칭, 리더십 코칭, 그룹 코칭, 기업 교육 제공.",
+          "founder": {
+            "@type": "Person",
+            "@id": "https://infinitycoaching.kr/#person"
+          },
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "contactType": "customer service",
+            "url": "https://infinitycoaching.kr"
+          },
+          "sameAs": []
+        },
+        {
+          "@type": "Person",
+          "@id": "https://infinitycoaching.kr/#person",
+          "name": "김명희",
+          "alternateName": ["Myunghee Kim", "김명희 코치", "김명희 대표코치"],
+          "jobTitle": ["이그제큐티브 코치", "대표코치", "조직심리학자", "Executive Coach", "Organizational Psychologist"],
+          "description": "인피니티코칭 대표. ICF PCC 국제인증 이그제큐티브 코치. 조직심리학 석사, 조직행동론 박사. 리얼타임 리더십코칭, 임원코칭, 최고경영자코칭, 갈등지능, 리더십 프레즌스(Gravitas) 전문.",
+          "url": "https://infinitycoaching.kr",
+          "image": "https://infinitycoaching.kr/profile-coach.jpg",
+          "worksFor": {
+            "@id": "https://infinitycoaching.kr/#organization"
+          },
+          "knowsAbout": [
+            "이그제큐티브 코칭",
+            "임원 코칭",
+            "최고경영자 코칭",
+            "리더십 코칭",
+            "갈등지능",
+            "갈등관리",
+            "신임임원 온보딩",
+            "리더십 프레즌스",
+            "그라비타스",
+            "조직심리학",
+            "신경과학 코칭",
+            "Executive Coaching",
+            "Leadership Coaching",
+            "Gravitas",
+            "Presence",
+            "Conflict Intelligence"
+          ],
+          "hasCredential": [
+            {
+              "@type": "EducationalOccupationalCredential",
+              "name": "ICF PCC (Professional Certified Coach)"
+            },
+            {
+              "@type": "EducationalOccupationalCredential",
+              "name": "조직행동론 박사 (PhD in Organizational Behavior)"
+            }
+          ],
+          "nationality": "Korean"
+        },
+        {
+          "@type": "WebSite",
+          "url": "https://infinitycoaching.kr",
+          "name": "INFINITY COACHING",
+          "description": "인피니티코칭 공식 홈페이지",
+          "publisher": {
+            "@id": "https://infinitycoaching.kr/#organization"
+          }
+        }
+      ]
+    }
+    </script>
+  </head>
   <body class="bg-[#F7F5F0] text-[#1a1a1a] antialiased selection:bg-[#4FD1C5] selection:text-white overflow-x-hidden">
     <div id="root"></div>
     <div class="noise-overlay"></div>
-  <script type="module" src="/index.tsx"></script>
+    <script type="module" src="/index.tsx"></script>
   </body>
 </html>
