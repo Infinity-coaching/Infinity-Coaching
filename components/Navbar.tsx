@@ -57,7 +57,7 @@ const Navbar: React.FC<NavbarProps> = ({ lang, setLang }) => {
           className="serif text-2xl md:text-3xl tracking-[0.1em] font-bold opacity-100 cursor-pointer"
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
         >
-          INFINITY COACHING
+          인피니티코칭
         </div>
         
         <div className="hidden lg:flex gap-8 items-center">
