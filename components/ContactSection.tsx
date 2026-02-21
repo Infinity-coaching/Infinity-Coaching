@@ -18,8 +18,6 @@ const ContactSection: React.FC<ContactSectionProps> = ({ lang }) => {
         "인피니티 코칭은 지속 가능한 리더십의 미래를 함께 디자인합니다."
       ],
       office: "Office (사업장)",
-      space: "Space (강의장)",
-      spaceName: "인피니티 스페이스"
     },
     en: {
       tag: "Get in Touch",
@@ -31,8 +29,6 @@ const ContactSection: React.FC<ContactSectionProps> = ({ lang }) => {
         "INFINITY COACHING designs the future of sustainable leadership with you."
       ],
       office: "Office",
-      space: "Workshop Space",
-      spaceName: "Infinity Space"
     }
   }[lang];
 
@@ -53,7 +49,7 @@ const ContactSection: React.FC<ContactSectionProps> = ({ lang }) => {
           </div>
         </ScrollReveal>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-16 gap-x-8 mt-24">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-y-16 gap-x-8 mt-24 max-w-3xl mx-auto">
           <ScrollReveal delay={100}>
             <div className="space-y-4">
               <label className="text-[9px] uppercase tracking-[0.3em] text-[#4FD1C5] font-bold block opacity-60">Email Address</label>
