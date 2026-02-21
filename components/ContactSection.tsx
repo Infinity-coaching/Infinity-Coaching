@@ -68,15 +68,6 @@ const ContactSection: React.FC<ContactSectionProps> = ({ lang }) => {
               <p className="text-[#F7F5F0] text-lg font-light">인천 연수구 송도과학로 27번길 55</p>
             </div>
           </ScrollReveal>
-          <ScrollReveal delay={300}>
-            <div className="space-y-4">
-              <label className="text-[9px] uppercase tracking-[0.3em] text-[#4FD1C5] font-bold block opacity-60">{t.space}</label>
-              <p className="text-[#F7F5F0] text-lg font-light">울산 중구 우정동 500-1, 803호</p>
-              <div className="inline-flex items-center gap-2 px-3 py-1 border border-[#4FD1C5]/20 rounded-full bg-[#4FD1C5]/5">
-                <span className="text-[#4FD1C5] text-[11px] font-medium">{t.spaceName}</span>
-              </div>
-            </div>
-          </ScrollReveal>
         </div>
       </div>
     </section>
